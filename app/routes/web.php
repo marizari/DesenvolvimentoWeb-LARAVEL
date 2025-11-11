@@ -39,3 +39,11 @@ Route::get('/empresa', function(){
     return view('site.empresa');
 
 });
+
+//Rota de redirecionamento de rotas
+Route::get('/sobre', function(){
+    return redirect('/empresa');
+});
+
+//Rota mais simples de redirecionamento de rotas
+Route::redirect('/sobre', '/empresa');
