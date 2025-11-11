@@ -50,3 +50,14 @@ Route::get('/sobre', function(){
 
 //Rota mais simples de redirecionamento de rotas
 Route::redirect('/sobre', '/empresa');
+
+
+//Criação de rotas nomeadas
+Route::get('/news', function(){
+    return view('news');
+})->name('noticias');
+
+//Utilizando o nome da rota declara acima (noticias), SOMENTE SE FOI USADO O ->name('algumNomeDadoARota')
+Route::get('/novidades', function(){
+    return redirect()->route('noticias');
+});
