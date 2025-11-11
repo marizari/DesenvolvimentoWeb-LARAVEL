@@ -17,7 +17,12 @@ Route::match(['get', 'post'], '/match', function(){
     return "Permite apenas get e post,
     ou seja, permite SOMENTE métodos definidos como foi no caso do verbo http get e post";
 // permite apenas os métodos definidos
-});   
+});
+
+Route::get('/produto/{id}/{cat}', function($id,$cat){
+return "O id do produto é ".$id."<br>"."A categoria do produto é ".$cat;
+
+});
 
 
 Route::get('/empresa', function(){
