@@ -19,8 +19,18 @@ Route::match(['get', 'post'], '/match', function(){
 // permite apenas os métodos definidos
 });
 
+//Rota com parâmetros obrigatórios
+//No caso abaixo, o id e a cat são parâmetros obrigatórios
+//Se ambos e/ou não forem passados, dará erro
 Route::get('/produto/{id}/{cat}', function($id,$cat){
-return "O id do produto é ".$id."<br>"."A categoria do produto é ".$cat;
+return "O id do produto é ".$id."<br>"."E a categoria é: ".$cat;
+
+});
+
+//Rota com parâmetros opcionais
+//O ? 
+Route::get('/produto2/{id}/{cat?}', function($id, $cat=''){
+    return "O id do produto é ".$id."<br>"."E a categoria é: ".$cat;
 
 });
 
