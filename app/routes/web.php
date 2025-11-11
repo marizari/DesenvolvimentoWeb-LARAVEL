@@ -35,10 +35,13 @@ Route::get('/produto2/{id}/{cat?}', function($id, $cat=''){
 });
 
 
-Route::get('/empresa', function(){
+/*Route::get('/empresa', function(){
     return view('site.empresa');
+});*/
 
-});
+//Rota mais simplificada para rota que somente está renderizando a view
+Route::view('/empresa', 'site/empresa');
+
 
 //Rota de redirecionamento de rotas
 Route::get('/sobre', function(){
