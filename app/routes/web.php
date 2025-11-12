@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
+/*Route::get('/', function () {
     return view('welcome');
 });
 
@@ -40,7 +40,7 @@ Route::get('/produto2/{id}/{cat?}', function($id, $cat=''){
 });*/
 
 //Rota mais simplificada para rota que somente está renderizando a view
-Route::view('/empresa', 'site/empresa');
+/*Route::view('/empresa', 'site/empresa');
 
 
 //Rota de redirecionamento de rotas
@@ -60,4 +60,30 @@ Route::get('/news', function(){
 //Utilizando o nome da rota declara acima (noticias), SOMENTE SE FOI USADO O ->name('algumNomeDadoARota')
 Route::get('/novidades', function(){
     return redirect()->route('noticias');
-});
+});*/
+
+// Grupo de Rotas - Uso de prefix
+// O método prefix() permite agrupar várias rotas que compartilham um mesmo prefixo na URL.
+// Assim, todas as rotas dentro desse grupo terão automaticamente "admin/" antes do seu caminho.
+// Exemplo:
+// - /admin/dashboard
+// - /admin/users
+// - /admin/clientes
+//
+// Isso ajuda a manter o código mais organizado, especialmente em áreas como painéis administrativos.
+
+/*Route::prefix('admin')->group(function(){
+    Route::get('dashboard', function(){
+        return "dashboard";
+    });
+
+    Route::get('users', function(){
+        return "users";
+    });
+
+    Route::get('clientes', function(){
+        return "clientes";
+    });
+});*/
+
+
