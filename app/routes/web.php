@@ -1,89 +1,183 @@
 <?php
 
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
-/*Route::get('/', function () {
-    return view('welcome');
-});
+/*
+|--------------------------------------------------------------------------
+| 1. Rota Inicial (/)
+|--------------------------------------------------------------------------
+| Quando o usuário acessa a raiz "/", ele é redirecionado para a rota
+| nomeada "admin.clientes".
+*/
 
-//o que faz o rota any é aceitar qualquer tipo de requisição. No caso abaixo, aceita put, delete, get, post. Não é muito usado. por questões de segurança
-Route::any('/any', function(){
-    return "Pemite todo tipo de acesso http(put, delete, get, post))";
-
-});
-
-//o que faz o rota match é aceitar apenas os tipos de requisição que forem definidos. No caso abaixo, aceita apenas get e post
-Route::match(['get', 'post'], '/match', function(){
-    return "Permite apenas get e post,
-    ou seja, permite SOMENTE métodos definidos como foi no caso do verbo http get e post";
-// permite apenas os métodos definidos
-});
-
-//Rota com parâmetros obrigatórios
-//No caso abaixo, o id e a cat são parâmetros obrigatórios
-//Se ambos e/ou não forem passados, dará erro
-Route::get('/produto/{id}/{cat}', function($id,$cat){
-return "O id do produto é ".$id."<br>"."E a categoria é: ".$cat;
-
-});
-
-//Rota com parâmetros opcionais
-//O ? 
-Route::get('/produto2/{id}/{cat?}', function($id, $cat=''){
-    return "O id do produto é ".$id."<br>"."E a categoria é: ".$cat;
-
+Route::get('/', function () {
+    return redirect()->route('admin.clientes');
 });
 
 
-/*Route::get('/empresa', function(){
-    return view('site.empresa');
-});*/
+/*
+|--------------------------------------------------------------------------
+| 2. Route::any()
+|--------------------------------------------------------------------------
+| Aceita QUALQUER tipo de requisição HTTP:
+| GET, POST, PUT, DELETE, PATCH, OPTIONS...
+|
+| ⚠ Não é muito usado por motivos de segurança.
+*/
 
-//Rota mais simplificada para rota que somente está renderizando a view
-/*Route::view('/empresa', 'site/empresa');
-
-
-//Rota de redirecionamento de rotas
-Route::get('/sobre', function(){
-    return redirect('/empresa');
+Route::any('/any', function () {
+    return "Permite todo tipo de acesso HTTP (PUT, DELETE, GET, POST, etc.)";
 });
 
-//Rota mais simples de redirecionamento de rotas
-Route::redirect('/sobre', '/empresa');
+
+/*
+|--------------------------------------------------------------------------
+| 3. Route::match()
+|--------------------------------------------------------------------------
+| Aceita SOMENTE os métodos HTTP definidos no array.
+| No exemplo: aceita apenas GET e POST.
+*/
+
+Route::match(['get', 'post'], '/match', function () {
+    return "Permite apenas GET e POST (somente os métodos definidos).";
+});
 
 
-//Criação de rotas nomeadas
-Route::get('/news', function(){
-    return view('news');
-})->name('noticias');
+/*
+|--------------------------------------------------------------------------
+| 4. Parâmetros Obrigatórios
+|--------------------------------------------------------------------------
+| {id} e {cat} são obrigatórios.
+| Se algum faltar → erro 404.
+*/
 
-//Utilizando o nome da rota declara acima (noticias), SOMENTE SE FOI USADO O ->name('algumNomeDadoARota')
-Route::get('/novidades', function(){
-    return redirect()->route('noticias');
-});*/
+Route::get('/produto/{id}/{cat}', function ($id, $cat) {
+    return "O id do produto é $id <br>A categoria é: $cat";
+});
 
-// Grupo de Rotas - Uso de prefix
-// O método prefix() permite agrupar várias rotas que compartilham um mesmo prefixo na URL.
-// Assim, todas as rotas dentro desse grupo terão automaticamente "admin/" antes do seu caminho.
-// Exemplo:
-// - /admin/dashboard
-// - /admin/users
-// - /admin/clientes
-//
-// Isso ajuda a manter o código mais organizado, especialmente em áreas como painéis administrativos.
 
-/*Route::prefix('admin')->group(function(){
-    Route::get('dashboard', function(){
+/*
+|--------------------------------------------------------------------------
+| 5. Parâmetros Opcionais
+|--------------------------------------------------------------------------
+| {cat?} é opcional.
+| Se não for passado → assume o valor padrão ''.
+*/
+
+Route::get('/produto2/{id}/{cat?}', function ($id, $cat = '') {
+    return "O id do produto é $id <br>A categoria é: $cat";
+});
+
+
+/*
+|--------------------------------------------------------------------------
+| 6. Renderização de Views
+|--------------------------------------------------------------------------
+| Duas formas de retornar uma view ao usuário:
+|
+| ✔ Forma tradicional:
+| Route::get('/empresa', function () {
+|     return view('site.empresa');
+| });
+|
+| ✔ Forma simplificada (somente para renderizar view):
+| Route::view('/empresa', 'site.empresa');
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| 7. Redirecionamento de Rotas
+|--------------------------------------------------------------------------
+| ✔ Forma completa:
+| Route::get('/sobre', function () {
+|     return redirect('/empresa');
+| });
+|
+| ✔ Forma reduzida e recomendada:
+| Route::redirect('/sobre', '/empresa');
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| 8. Rotas Nomeadas
+|--------------------------------------------------------------------------
+| Rota nomeada:
+|
+| Route::get('/news', function () {
+|     return view('news');
+| })->name('noticias');
+|
+| Redirecionando usando o nome da rota:
+|
+| Route::get('/novidades', function () {
+|     return redirect()->route('noticias');
+| });
+|
+*/
+
+
+/*
+|--------------------------------------------------------------------------
+| 9. (Exemplo de Estudo) Grupo com name() mas sem prefix()
+|--------------------------------------------------------------------------
+| ⚠ Esse exemplo funciona, mas não é o ideal para rotas admin
+| porque "admin/" foi escrito manualmente em cada rota.
+|
+| Útil apenas para aprender como name() funciona.
+*/
+
+Route::name('admin.')->group(function () {
+
+    Route::get('admin/dashboard', function () {
         return "dashboard";
-    });
+    })->name('dashboard');
 
-    Route::get('users', function(){
+    Route::get('admin/users', function () {
         return "users";
-    });
+    })->name('users');
 
-    Route::get('clientes', function(){
+    Route::get('admin/clientes', function () {
         return "clientes";
-    });
-});*/
+    })->name('clientes');
+
+});
 
 
+/*
+|--------------------------------------------------------------------------
+| 10. (Forma Correta) Grupo com prefix + name
+|--------------------------------------------------------------------------
+| Essa é a FORMA RECOMENDADA em sistemas reais.
+|
+| prefix → modifica a URL (ex: /admin/...)
+| as     → modifica o nome das rotas (ex: admin.dashboard)
+|
+| Resultado:
+|   URL  → /admin/dashboard
+|   Nome → admin.dashboard
+|
+*/
+
+Route::group([
+    'prefix' => 'admin',
+    'as' => 'admin.'
+], function () {
+
+    Route::get('dashboard', function () {
+        return "dashboard";
+    })->name('dashboard');
+
+    Route::get('users', function () {
+        return "users";
+    })->name('users');
+
+    Route::get('clientes', function () {
+        return "clientes";
+    })->name('clientes');
+
+});
